@@ -143,7 +143,7 @@ const Navbar = () => {
 	return (
 		<nav className="flex flex-col justify-evenly text-white">
 			<div className="container justify-between flex mx-auto">
-				<div className={`flex gap-10 items-center m-7`}>
+				<div className={`invert flex gap-10 items-center m-7`}>
 					{/* <Link className="select-none" to="/"> */}
 						<img src={logo} />
 					{/* </Link> */}

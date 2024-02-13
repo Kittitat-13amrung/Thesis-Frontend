@@ -1,20 +1,10 @@
 import Listbox from '@/components/Songs/Listbox'
 import Navbar from '@/components/Navbar';
 import React from 'react';
-import Dropzone from 'react-dropzone';
+import AudioDropInput from '@/components/Songs/AudioDropInput';
 
 const Index = () => {
-    const audioInput = React.useRef(null);
-
     React.useEffect(() => { }, []);
-
-    const handleAudioInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = (e.target as HTMLInputElement).files;
-
-        if (files) {
-
-        }
-    }
 
 
 
@@ -34,14 +24,7 @@ const Index = () => {
                     </div>
 
                     {/* Drag n' Drop audio functionality */}
-                    <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-                        {({ getRootProps, getInputProps }) => (
-                            <div {...getRootProps()} className="justify-center center py-32 rounded-lg border-neutral-800 border-dashed border-2 backdrop-blur bg-opacity-40 px-5">
-                                <input {...getInputProps()}/>
-                                <p>Drag 'n' drop some files here, or click to select files</p>
-                            </div>
-                        )}
-                    </Dropzone>
+                    <AudioDropInput/>
                 </div>
             </main>
             {/* Songs Section  */}
