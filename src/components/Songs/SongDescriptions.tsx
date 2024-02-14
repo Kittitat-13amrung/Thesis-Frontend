@@ -1,6 +1,6 @@
 import { song } from '@/types/songs/song'
 import React from 'react'
-import {Icon, iconExists} from '@iconify/react';
+import {Icon} from '@iconify/react';
 
 
 type Props = {
@@ -29,7 +29,7 @@ const SongDescriptions:React.FC<Props> = (props) => {
   const items = Object.entries(details).map(([title, item]) => <DescriptionItem key={title} title={title} value={item.value} iconName={item.icon}/>)
 
   return (
-    <ul className='grid grid-flow-col-dense place-content-stretch grid-cols-8'>
+    <ul className='grid grid-flow-col place-content-start gap-14'>
       {items}
     </ul>
   )

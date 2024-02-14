@@ -1,6 +1,7 @@
 import { song } from '@/types/songs/song';
 import React from 'react'
 import SongDescriptions from '../Songs/SongDescriptions';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 
 type Props = {
     setSongTitle: React.Dispatch<React.SetStateAction<string>>
@@ -40,7 +41,7 @@ const Viewer: React.FC<Props> = (props) => {
         if (_api.current) return;
 
         const API_SETTINGS = {
-            file: "https://www.alphatab.net/files/canon.gp",
+            file: "https://advanced-js.s3.eu-west-1.amazonaws.com/test+(26).xml",
             notation: {
                 elements: {
                     scoreTitle: false,
@@ -56,7 +57,7 @@ const Viewer: React.FC<Props> = (props) => {
             },
             player: {
                 enablePlayer: true,
-                soundFont: `https://advanced-js.s3.eu-west-1.amazonaws.com/Overdriven+Guitar.sf2`,
+                soundFont: `https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/soundfont/sonivox.sf2`,
                 scrollElement: _viewport.current // this is the element to scroll during playback
             }
         };
@@ -93,24 +94,32 @@ const Viewer: React.FC<Props> = (props) => {
         });
 
         _api.current.scoreLoaded.on((score: any) => {
-            console.log(score);
+            console.log(score.tracks);
 
             setSongDetails({
-                tempo: {
-                    value: score.tempo,
-                    icon: 'ph:metronome-bold'
-                },
                 artist: {
                     value: score.artist,
                     icon: 'material-symbols:artist-outline'
                 },
+                tempo: {
+                    value: score.tempo,
+                    icon: 'ph:metronome-bold'
+                },
                 tuning: {
-                    value: score.guitarTuning,
+                    value: score.tracks[0].staves[0].stringTuning.name,
                     icon: 'mdi:tuner'
                 },
+                timeSignature: {
+                    value: score.masterBars[0].timeSignatureDenominator + '/' + score.masterBars[0].timeSignatureNumerator,
+                    icon: 'tabler:triangle-off'
+                },
+                keySignature: {
+                    value: score.masterBars[0].keySignature,
+                    icon: 'mdi:music-clef-treble'
+                }
             })
 
-            props.setSongTitle(score.title)
+            props.setSongTitle(score.title);
         })
     }, []);
 
@@ -135,6 +144,7 @@ const Viewer: React.FC<Props> = (props) => {
                 </div>
                 {/* Player controls */}
                 <div className="" ref={_controls}>
+                    <AudioPlayer/>
                     <button onClick={handlePlayButtonClick} disabled={isPlayButtonDisabled} className='bg-neutral-900 hover:bg-neutral-800 disabled:cursor-progress disabled:opacity-50 py-2 px-6 rounded-md text-neutral-50'>Play</button>
                     <div ref={_songPosition}>00:00 / 00:00</div>
                 </div>
