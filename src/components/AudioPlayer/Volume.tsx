@@ -7,9 +7,9 @@ const Volume:React.FC<Props> = (props) => {
     const volumeSlider = React.useRef<HTMLInputElement>(null);
     const [volume, setVolume] = React.useState<string>("");
 
-    const handleVolumeMouseEnter = () => {
+    // const handleVolumeMouseEnter = () => {
 
-    }
+    // }
 
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(e.target.value);
@@ -17,7 +17,7 @@ const Volume:React.FC<Props> = (props) => {
 
     return (
         <>
-            <Icon inline icon='heroicons-outline:volume-up' className='w-10 h-10 cursor-pointer' onMouseEnter={handleVolumeMouseEnter} />
+            <Icon inline icon='heroicons-outline:volume-up' className='w-10 h-10 cursor-pointer' />
             <input type='range' ref={volumeSlider} onChange={handleVolumeChange} max={100} value={volume}/>
         </>
     )
