@@ -6,7 +6,7 @@ import Index from './pages/Index'
 
 function App() {
   return (
-    <div className="bg-slate-100 min-h-[100vh] min-w-[100vw]">
+    <div className="bg-slate-100 min-h-[100vh]">
       <TabVisualiser/>
     </div>
   )

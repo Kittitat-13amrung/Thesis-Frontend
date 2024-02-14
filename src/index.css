@@ -18,6 +18,26 @@
   -moz-osx-font-smoothing: grayscale; */
 }
 
+.at-cursor-beat {
+  background: yellowgreen;
+  width: 10px;
+
+}
+.at-highlight * {
+  /* Defines the color of the music symbols when they are being played (svg) */
+  fill: #0078ff;
+  stroke: #0078ff;
+}
+
+.at-cursor-bar {
+  /* Defines the color of the bar background when a bar is played */
+  background: rgba(184, 184, 184, 0.25);
+}
+
+.at-selection div {
+  /* Defines the color of the selection background */
+  background: rgba(64, 64, 255, 0.1);
+}
 /* a {
   font-weight: 500;
   color: #646cff;
