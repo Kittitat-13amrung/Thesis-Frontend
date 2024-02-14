@@ -96,9 +96,18 @@ const Viewer: React.FC<Props> = (props) => {
             console.log(score);
 
             setSongDetails({
-                tempo: score.tempo,
-                artist: score.artist,
-                tuning: score.guitarTuning,
+                tempo: {
+                    value: score.tempo,
+                    icon: 'ph:metronome-bold'
+                },
+                artist: {
+                    value: score.artist,
+                    icon: 'material-symbols:artist-outline'
+                },
+                tuning: {
+                    value: score.guitarTuning,
+                    icon: 'mdi:tuner'
+                },
             })
 
             props.setSongTitle(score.title)
@@ -116,7 +125,7 @@ const Viewer: React.FC<Props> = (props) => {
 
     return (
         <>
-            <div className="">
+            <div className="mx-20 grid gap-4">
                 <SongDescriptions details={songDetails} />
                 {/* Loading indicator for music sheet */}
                 <div className="absolute top-0 left-0 right-0 bottom-0 z-20 bg-slate-700 bg-opacity-15 backdrop-blur-sm flex justify-center items-start" ref={_overlay as React.RefObject<HTMLDivElement>}>

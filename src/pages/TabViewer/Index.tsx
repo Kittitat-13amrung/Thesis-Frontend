@@ -26,7 +26,6 @@ const TabVisualiser: React.FC<Props> = () => {
         </div>
       </main>
       <section className="rounded-t-xl bg-neutral-50 min-h-[100vh] mx-28 p-5">
-        {/* Song Description */}
         {/* Tab viz */}
         <Viewer setSongTitle={setSongTitle}/>
       </section>
