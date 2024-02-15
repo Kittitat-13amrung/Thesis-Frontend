@@ -36,6 +36,13 @@ const Viewer: React.FC<Props> = (props) => {
 
 
     const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false);
+    const [playtime, setPlaytime] = React.useState<{
+        duration: string,
+        currentTime: string,
+    }>({
+        currentTime: "00:00",
+        duration: "00:00"
+    });
 
     React.useEffect(() => {
         if (_api.current) return;
@@ -80,22 +87,25 @@ const Viewer: React.FC<Props> = (props) => {
             setIsPlayButtonDisabled(false);
         });
 
+        // update song position
         _api.current.playerPositionChanged.on((e: any) => {
             let previousTime = -1;
             const currentSeconds = (e.currentTime / 1000) | 0;
 
+            // song ended
             if (currentSeconds == previousTime) {
                 return;
             }
 
-            if (_songPosition.current !== null) {
-                _songPosition.current.innerText = formatDuration(e.currentTime) + " / " + formatDuration(e.endTime);
-            }
+            // insert playtime on initial mount
+            setPlaytime({
+                currentTime: formatDuration(e.currentTime),
+                duration: formatDuration(e.endTime)
+            });
         });
 
+        // when score loaded, save song details
         _api.current.scoreLoaded.on((score: any) => {
-            console.log(score.tracks);
-
             setSongDetails({
                 artist: {
                     value: score.artist,
@@ -144,9 +154,9 @@ const Viewer: React.FC<Props> = (props) => {
                 </div>
                 {/* Player controls */}
                 <div className="" ref={_controls}>
-                    <AudioPlayer/>
+                    <AudioPlayer currentTime={playtime.currentTime} duration={playtime.duration}/>
                     <button onClick={handlePlayButtonClick} disabled={isPlayButtonDisabled} className='bg-neutral-900 hover:bg-neutral-800 disabled:cursor-progress disabled:opacity-50 py-2 px-6 rounded-md text-neutral-50'>Play</button>
-                    <div ref={_songPosition}>00:00 / 00:00</div>
+                    <div ref={_songPosition}>{playtime?.currentTime}</div>
                 </div>
             </div>
             {/* Tab Visualiser */}

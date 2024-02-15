@@ -1,25 +1,56 @@
 import React from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import useVolumeHook from '@/hooks/useVolumeHook';
 
 type Props = {}
 
-const Volume:React.FC<Props> = (props) => {
+const Volume: React.FC<Props> = (props) => {
     const volumeSlider = React.useRef<HTMLInputElement>(null);
-    const [volume, setVolume] = React.useState<string>("");
+    const [volume, setVolume] = useVolumeHook();
 
     // const handleVolumeMouseEnter = () => {
 
     // }
 
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setVolume(e.target.value);
+        const currentVolume = parseInt(e.target.value);
+        setVolume(prevState => ({
+            prevVolume: prevState?.prevVolume,
+            currentVolume: currentVolume
+        }));
     };
 
+    const handleVolumeButtonClick = () => {
+        // set volume to zero or previous volume state
+        const currentVolume = volume.currentVolume > 0 ? 0 : volume.prevVolume; 
+
+        setVolume(prevState => ({
+            ...prevState,
+            currentVolume: currentVolume
+        }));
+
+
+    }
+
+    const handleMouseVolumeUp = (e: React.MouseEvent<HTMLInputElement>) => {
+        const currentVolume = parseInt(e.currentTarget.value) == 0 ? volume.prevVolume : parseInt(e.currentTarget.value);
+        setVolume(prevState => ({
+            prevVolume: currentVolume,
+            currentVolume: prevState.currentVolume
+        }));
+    }
+
     return (
-        <>
-            <Icon inline icon='heroicons-outline:volume-up' className='w-10 h-10 cursor-pointer' />
-            <input type='range' ref={volumeSlider} onChange={handleVolumeChange} max={100} value={volume}/>
-        </>
+        <div className='flex gap-2.5'>
+            <button onClick={handleVolumeButtonClick}>
+                {volume.currentVolume == 0 ? (
+                    <Icon inline icon='heroicons-outline:volume-off' className='w-5 h-5 cursor-pointer' />
+                    ) : (
+                    <Icon inline icon='heroicons-outline:volume-up' className='w-5 h-5 cursor-pointer' />
+                )}           
+            </button>
+            <input type='range' ref={volumeSlider} onChange={handleVolumeChange} onMouseUp={handleMouseVolumeUp} max={100} value={volume.currentVolume} />
+        </div>
     )
 }
 
