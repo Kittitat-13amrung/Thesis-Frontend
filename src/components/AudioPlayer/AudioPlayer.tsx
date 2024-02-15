@@ -1,6 +1,6 @@
 import React from 'react'
 import { createPortal } from 'react-dom';
-import audioWav from '@assets/00_BN1-129-Eb_solo_mic.wav';
+// import audioWav from '@assets/00_BN1-129-Eb_solo_mic.wav';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Volume from './Volume';
 
@@ -10,7 +10,7 @@ type AudioInfo = {
 }
 
 const AudioPlayer:React.FC<AudioInfo> = (info) => {
-    const audioPlayer = React.useRef<HTMLSourceElement>(null);
+    // const audioPlayer = React.useRef<HTMLSourceElement>(null);
     const [isPlaying, setIsPlaying] = React.useState(false);
 
     const playPause = isPlaying ? (
