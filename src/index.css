@@ -29,10 +29,6 @@
   stroke: #0078ff;
 }
 
-.at-cursor-bar {
-  /* Defines the color of the bar background when a bar is played */
-  background: rgba(184, 184, 184, 0.25);
-}
 
 .at-selection div {
   /* Defines the color of the selection background */

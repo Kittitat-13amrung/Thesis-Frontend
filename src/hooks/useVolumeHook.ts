@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import useReadLocalStorage from '@/hooks/useReadLocalStorage';
-import { VolumeType } from '@/types/audioPlayer/volume';
+import VolumeType from '@/types/audioPlayer/volume';
 
 // read from localStorage
 export default function useVolumeHook(): [VolumeType, React.Dispatch<React.SetStateAction<VolumeType>>] {

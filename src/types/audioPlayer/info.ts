@@ -1,14 +1,10 @@
 type AudioInfo = {
     player: React.MutableRefObject<any>,
-    duration: string,
-    currentTime: string,
-    setPlaytime: React.Dispatch<React.SetStateAction<{
-        duration: string,
-        currentTime: string,
-    }>>,
+    duration: number,
+    currentTime: number,
+    setPlaytime: React.Dispatch<React.SetStateAction<number>>,
     isPlaying: boolean,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
-    handlePlayButtonClick: () => void,
 }
 
 export default AudioInfo;

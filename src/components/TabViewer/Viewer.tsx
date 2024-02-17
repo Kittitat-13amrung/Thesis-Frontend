@@ -2,6 +2,8 @@ import { song } from '@/types/songs/song';
 import React from 'react'
 import SongDescriptions from '../Songs/SongDescriptions';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import useReadLocalStorage from '@/hooks/useReadLocalStorage';
+import VolumeType from '@/types/audioPlayer/volume';
 
 type Props = {
     setSongTitle: React.Dispatch<React.SetStateAction<string>>
@@ -19,22 +21,21 @@ const Viewer: React.FC<Props> = (props) => {
     const _viewport = React.useRef<HTMLDivElement>(null);
     const _overlay = React.useRef<HTMLDivElement>(null);
 
-    const [songDetails, setSongDetails] = React.useState<song | null>(null);
-    const [isPlaying, setIsPlaying] = React.useState(false);
+    const [songDetails, setSongDetails] = React.useState<song | null>(null); // song details
+    const [isPlaying, setIsPlaying] = React.useState(false); // play/pause state
 
 
-    const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false);
-    const [playtime, setPlaytime] = React.useState<{
-        duration: string,
-        currentTime: string,
-    }>({
-        currentTime: "00:00",
-        duration: "00:00"
-    });
+    const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
+    const [duration, setDuration] = React.useState(0); // song duration
+    const [playtime, setPlaytime] = React.useState(0); // song duration and current time
+
+    const volume = useReadLocalStorage<VolumeType>("currentVolume");
 
     React.useEffect(() => {
+        // check if AlphaTabApi is already initialized
         if (_api.current) return;
 
+        // settings for AlphaTabApi
         const API_SETTINGS = {
             file: "https://advanced-js.s3.eu-west-1.amazonaws.com/test+(26).xml",
             notation: {
@@ -57,20 +58,24 @@ const Viewer: React.FC<Props> = (props) => {
             }
         };
 
+        // create new instance of AlphaTabApi
         _api.current = new window.alphaTab.AlphaTabApi(_viewport.current as HTMLDivElement, API_SETTINGS);
 
+        // show loading indicator when render is started
         _api.current.renderStarted.on(() => {
             if (_overlay.current !== null) {
                 _overlay.current.style.display = 'flex';
             }
         });
 
+        // hide loading indicator when render is finished
         _api.current.renderFinished.on(() => {
             if (_overlay.current !== null) {
                 _overlay.current.style.display = 'none';
             }
         });
 
+        // enable play button when player is ready
         _api.current.playerReady.on(() => {
             setIsPlayButtonDisabled(false);
         });
@@ -86,19 +91,24 @@ const Viewer: React.FC<Props> = (props) => {
             }
 
             // insert playtime on initial mount
-            setPlaytime({
-                currentTime: e.currentTime,
-                duration: e.endTime
-            });
+            setPlaytime(e.currentTime);
 
-            // check if song is playing to update playPause state
-            // if (_api.current.syn)
+            // only update duration when it's not set
+            if (duration === 0) {
+                setDuration(e.endTime);
+            };
+        });
 
-            console.log(_api.current.PlayerState);
+        // update play/pause state
+        _api.current.playerStateChanged.on((e: any) => {
+            if (e.stopped) {
+                setIsPlaying(false);
+            }
         });
 
         // when score loaded, save song details
         _api.current.scoreLoaded.on((score: any) => {
+            // save song details
             setSongDetails({
                 artist: {
                     value: score.artist,
@@ -120,20 +130,23 @@ const Viewer: React.FC<Props> = (props) => {
                     value: score.masterBars[0].keySignature,
                     icon: 'mdi:music-clef-treble'
                 }
-            })
+            });
 
+            // set song title
             props.setSongTitle(score.title);
-        })
+
+            // set volume from local storage
+            if (volume) {
+                _api.current.masterVolume = volume.currentVolume / 100;
+            }
+        });
+
+        // destroy the instance when component is unmounted
+        // return(() => {
+        //     _api.current.destroy();
+        // });
+
     }, []);
-
-    const handlePlayButtonClick = () => {
-        if (isPlayButtonDisabled) {
-            return;
-        }
-
-        setIsPlaying(!isPlaying);
-        _api.current.playPause();
-    }
 
     return (
         <>
@@ -146,7 +159,7 @@ const Viewer: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 {/* Player controls */}
-                <AudioPlayer player={_api} setPlaytime={setPlaytime} isPlaying={isPlaying} setIsPlaying={setIsPlaying} handlePlayButtonClick={handlePlayButtonClick} currentTime={playtime.currentTime} duration={playtime.duration} />
+                <AudioPlayer player={_api} setPlaytime={setPlaytime} isPlaying={isPlaying} setIsPlaying={setIsPlaying} currentTime={playtime} duration={duration} />
             </div>
             {/* Tab Visualiser */}
             <div ref={_viewport}>
