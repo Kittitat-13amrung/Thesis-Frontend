@@ -13,23 +13,11 @@ declare global {
     }
 }
 
-const formatDuration = (milliseconds: number): string => {
-    let seconds = milliseconds / 1000;
-    const minutes = (seconds / 60) | 0;
-    seconds = (seconds - minutes * 60) | 0;
-    return (
-        String(minutes).padStart(2, "0") +
-        ":" +
-        String(seconds).padStart(2, "0")
-    );
-}
-
 
 const Viewer: React.FC<Props> = (props) => {
     const _api = React.useRef<any>();
     const _viewport = React.useRef<HTMLDivElement>(null);
     const _overlay = React.useRef<HTMLDivElement>(null);
-    const _controls = React.useRef<HTMLDivElement>(null);
 
     const [songDetails, setSongDetails] = React.useState<song | null>(null);
     const [isPlaying, setIsPlaying] = React.useState(false);
@@ -99,8 +87,8 @@ const Viewer: React.FC<Props> = (props) => {
 
             // insert playtime on initial mount
             setPlaytime({
-                currentTime: formatDuration(e.currentTime),
-                duration: formatDuration(e.endTime)
+                currentTime: e.currentTime,
+                duration: e.endTime
             });
         });
 
@@ -139,6 +127,7 @@ const Viewer: React.FC<Props> = (props) => {
         }
 
         setIsPlaying(!isPlaying);
+        console.log(_api.current);
         _api.current.playPause();
     }
 
@@ -153,9 +142,7 @@ const Viewer: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 {/* Player controls */}
-                <div className="" ref={_controls}>
-                    <AudioPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} handlePlayButtonClick={handlePlayButtonClick} currentTime={playtime.currentTime} duration={playtime.duration} />
-                </div>
+                <AudioPlayer player={_api} setPlaytime={setPlaytime} isPlaying={isPlaying} setIsPlaying={setIsPlaying} handlePlayButtonClick={handlePlayButtonClick} currentTime={playtime.currentTime} duration={playtime.duration} />
             </div>
             {/* Tab Visualiser */}
             <div ref={_viewport}>
