@@ -90,6 +90,11 @@ const Viewer: React.FC<Props> = (props) => {
                 currentTime: e.currentTime,
                 duration: e.endTime
             });
+
+            // check if song is playing to update playPause state
+            // if (_api.current.syn)
+
+            console.log(_api.current.PlayerState);
         });
 
         // when score loaded, save song details
@@ -127,7 +132,6 @@ const Viewer: React.FC<Props> = (props) => {
         }
 
         setIsPlaying(!isPlaying);
-        console.log(_api.current);
         _api.current.playPause();
     }
 

@@ -3,9 +3,11 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import useVolumeHook from '@/hooks/useVolumeHook';
 import SliderInput from './SliderInput';
 
-type Props = {}
+type Props = {
+    player: React.MutableRefObject<any>,
+};
 
-const Volume: React.FC<Props> = (props) => {
+const Volume: React.FC<Props> = ({ player }) => {
     const volumeSlider = React.useRef<HTMLInputElement>(null);
     const [volume, setVolume] = useVolumeHook();
 
@@ -19,18 +21,19 @@ const Volume: React.FC<Props> = (props) => {
             prevVolume: prevState?.prevVolume,
             currentVolume: currentVolume
         }));
+
+        // update player volume
+        player.current.changeTrackVolume(player.current.score.tracks, currentVolume / 100);
     };
 
     const handleVolumeButtonClick = () => {
         // set volume to zero or previous volume state
-        const currentVolume = volume.currentVolume > 0 ? 0 : volume.prevVolume; 
+        const currentVolume = volume.currentVolume > 0 ? 0 : volume.prevVolume;
 
         setVolume(prevState => ({
             ...prevState,
             currentVolume: currentVolume
         }));
-
-
     }
 
     const handleMouseVolumeUp = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -46,9 +49,9 @@ const Volume: React.FC<Props> = (props) => {
             <button onClick={handleVolumeButtonClick}>
                 {volume.currentVolume == 0 ? (
                     <Icon inline icon='heroicons-outline:volume-off' className='w-5 h-5 cursor-pointer' />
-                    ) : (
+                ) : (
                     <Icon inline icon='heroicons-outline:volume-up' className='w-5 h-5 cursor-pointer' />
-                )}           
+                )}
             </button>
             <SliderInput ref={volumeSlider} onChange={handleVolumeChange} onMouseUp={handleMouseVolumeUp} value={volume.currentVolume} className='w-full accent-neutral-900' />
         </div>

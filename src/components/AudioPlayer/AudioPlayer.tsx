@@ -64,7 +64,7 @@ const AudioPlayer:React.FC<AudioInfo> = (info):React.ReactElement<HTMLElement> =
             </div>
 
             {/* volume slider */}
-            <Volume />
+            <Volume player={info.player}/>
 
         </div>
     ), document.body);
