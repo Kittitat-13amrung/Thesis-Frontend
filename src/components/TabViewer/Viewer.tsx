@@ -30,9 +30,9 @@ const Viewer: React.FC<Props> = (props) => {
     const _viewport = React.useRef<HTMLDivElement>(null);
     const _overlay = React.useRef<HTMLDivElement>(null);
     const _controls = React.useRef<HTMLDivElement>(null);
-    const _songPosition = React.useRef<HTMLDivElement>(null);
 
     const [songDetails, setSongDetails] = React.useState<song | null>(null);
+    const [isPlaying, setIsPlaying] = React.useState(false);
 
 
     const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false);
@@ -138,7 +138,7 @@ const Viewer: React.FC<Props> = (props) => {
             return;
         }
 
-        console.log(_api.current)
+        setIsPlaying(!isPlaying);
         _api.current.playPause();
     }
 
@@ -154,9 +154,7 @@ const Viewer: React.FC<Props> = (props) => {
                 </div>
                 {/* Player controls */}
                 <div className="" ref={_controls}>
-                    <AudioPlayer currentTime={playtime.currentTime} duration={playtime.duration}/>
-                    <button onClick={handlePlayButtonClick} disabled={isPlayButtonDisabled} className='bg-neutral-900 hover:bg-neutral-800 disabled:cursor-progress disabled:opacity-50 py-2 px-6 rounded-md text-neutral-50'>Play</button>
-                    <div ref={_songPosition}>{playtime?.currentTime}</div>
+                    <AudioPlayer isPlaying={isPlaying} setIsPlaying={setIsPlaying} handlePlayButtonClick={handlePlayButtonClick} currentTime={playtime.currentTime} duration={playtime.duration} />
                 </div>
             </div>
             {/* Tab Visualiser */}

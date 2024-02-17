@@ -49,7 +49,7 @@ const Volume: React.FC<Props> = (props) => {
                     <Icon inline icon='heroicons-outline:volume-up' className='w-5 h-5 cursor-pointer' />
                 )}           
             </button>
-            <input type='range' ref={volumeSlider} onChange={handleVolumeChange} onMouseUp={handleMouseVolumeUp} max={100} value={volume.currentVolume} />
+            <input className='volume-slider' type='range' ref={volumeSlider} onChange={handleVolumeChange} onMouseUp={handleMouseVolumeUp} max={100} value={volume.currentVolume} />
         </div>
     )
 }

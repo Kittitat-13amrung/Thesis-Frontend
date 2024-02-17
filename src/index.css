@@ -38,6 +38,13 @@
   /* Defines the color of the selection background */
   background: rgba(64, 64, 255, 0.1);
 }
+
+.volume-slider {
+ @apply w-full bg-transparent cursor-pointer disabled:opacity-50 disabled:pointer-events-none focus:outline-none accent-neutral-900
+
+}
+
+
 /* a {
   font-weight: 500;
   color: #646cff;

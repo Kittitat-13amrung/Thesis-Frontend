@@ -7,18 +7,22 @@ import Volume from './Volume';
 type AudioInfo = {
     duration: string,
     currentTime: string,
+    isPlaying: boolean,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
+    handlePlayButtonClick: () => void,
 }
 
-const AudioPlayer:React.FC<AudioInfo> = (info) => {
-    // const audioPlayer = React.useRef<HTMLSourceElement>(null);
-    const [isPlaying, setIsPlaying] = React.useState(false);
+const AudioPlayer:React.FC<AudioInfo> = (info):React.ReactElement<HTMLElement> => {
+    const [seeker, setSeeker] = React.useState<number>(0);
+    const [duration, setDuration] = React.useState<number>(0);
 
-    const playPause = isPlaying ? (
-        <button className='min-w-10' onClick={() => setIsPlaying(!isPlaying)}>
+    // const audioPlayer = React.useRef<HTMLSourceElement>(null);
+    const playPause = info.isPlaying ? (
+        <button className='min-w-10' onClick={() => info.handlePlayButtonClick()}>
             <Icon inline icon='material-symbols-light:pause-outline' className='h-8 w-8'/>
         </button>
     ) : (
-        <button className='min-w-10' onClick={() => setIsPlaying(!isPlaying)}>
+        <button className='min-w-10' onClick={() => info.handlePlayButtonClick()}>
             <Icon inline icon='material-symbols-light:play-arrow-outline' className='h-8 w-8' />
         </button>
     )
@@ -35,7 +39,7 @@ const AudioPlayer:React.FC<AudioInfo> = (info) => {
             <div className="flex gap-2.5 w-1/2">
                 {/* current position */}
                 <p>{info.currentTime}</p>
-                <input type='range' max={100} value={0} className='w-full' />
+                <input type='range' max={100} value={seeker} className='w-full' />
                 {/* total duration */}
                 <p>{info.duration}</p>
             </div>
