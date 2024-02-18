@@ -24,7 +24,6 @@ const Viewer: React.FC<Props> = (props) => {
     const [songDetails, setSongDetails] = React.useState<song | null>(null); // song details
     const [isPlaying, setIsPlaying] = React.useState(false); // play/pause state
 
-
     const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
     const [duration, setDuration] = React.useState(0); // song duration
     const [playtime, setPlaytime] = React.useState(0); // song duration and current time
@@ -111,7 +110,7 @@ const Viewer: React.FC<Props> = (props) => {
             // save song details
             setSongDetails({
                 artist: {
-                    value: score.artist,
+                    value: score.artist ? score.artist : "Unknown",
                     icon: 'material-symbols:artist-outline'
                 },
                 tempo: {
@@ -127,13 +126,14 @@ const Viewer: React.FC<Props> = (props) => {
                     icon: 'tabler:triangle-off'
                 },
                 keySignature: {
-                    value: score.masterBars[0].keySignature,
+                    value: score.masterBars[0].keySignature ? score.masterBars[0].keySignature : "C",
                     icon: 'mdi:music-clef-treble'
                 }
             });
 
             // set song title
-            props.setSongTitle(score.title);
+            const songTitle = score.title ? score.title : "Untitled";
+            props.setSongTitle(songTitle);
 
             // set volume from local storage
             if (volume) {
@@ -150,7 +150,7 @@ const Viewer: React.FC<Props> = (props) => {
 
     return (
         <>
-            <div className="mx-20 grid gap-4">
+            <div className="mx-20 grid gap-2">
                 <SongDescriptions details={songDetails} />
                 {/* Loading indicator for music sheet */}
                 <div className="absolute top-0 left-0 right-0 bottom-0 z-20 bg-slate-700 bg-opacity-15 backdrop-blur-sm flex justify-center items-start" ref={_overlay as React.RefObject<HTMLDivElement>}>

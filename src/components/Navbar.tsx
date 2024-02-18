@@ -1,26 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "@/assets/images/tablature.png";
-
-// Nav Items
-// const navlinks = [
-// 	["Home", "/", <HomeIcon className="stroke-2 w-5" />],
-// 	// ["Courses", "/courses", <BookmarkSquareIcon className="stroke-2 w-5" />],
-// 	["Lecturers", "/lecturers", <IdentificationIcon className="stroke-2 w-5" />],
-// ];
-
-// Mapping Nav items to Navlinks
-// const navLinkCards = navlinks.map(([title, url, icon]) => {
-// 	return (
-// 		<NavLink
-// 			to={url}
-// 			key={`${title}Link`}
-// 			className="group text-center justify-center select-none font-semibold active:bg-black/50 hover:bg-black/20 rounded-md py-2 px-4 flex gap-2"
-// 		>
-// 			{icon}
-// 			{title}
-// 		</NavLink>
-// 	);
-// });
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { NavLink, To } from "react-router-dom";
 
 // retrieve the boolean for toggling dark theme
 const darkTheme = localStorage.getItem("dark-theme");
@@ -34,6 +15,29 @@ const Navbar = () => {
 		email: "",
 		password: "",
 	});
+
+	// Nav Items
+	const navlinks = [
+		["Home", "/", <Icon inline icon='material-symbols:home-outline' className="w-6 h-6" />],
+		// ["Courses", "/courses", <BookmarkSquareIcon className="w-6 h-6" />],
+		["Tab", "/tab-visualiser", <Icon inline icon='mingcute:file-music-line' className="w-6 h-6" />],
+	];
+
+	// Mapping Nav items to Navlinks
+	const navLinkCards = navlinks.map(([title, url, icon]) => {
+		return (
+			<NavLink
+				to={url as To}
+				key={`${title}Link`}
+				className="group text-center justify-center select-none font-semibold active:bg-black/50 hover:bg-black/20 hover:invert active:invert rounded-md py-2 px-4 flex gap-2"
+			>
+				{icon}
+				{title}
+			</NavLink>
+		);
+	});
+
+
 
 	//handle changes in login data
 	// const handleLoginForm = (e) => {
@@ -141,16 +145,18 @@ const Navbar = () => {
 	// );
 
 	return (
-		<nav className="flex flex-col justify-evenly text-white">
+		<nav className="absolute top-0 z-10 container left-1/2 -translate-x-1/2 flex flex-col justify-evenly text-white">
 			<div className="container justify-between flex mx-auto">
 				<div className={`invert flex gap-10 items-center m-7`}>
 					{/* <Link className="select-none" to="/"> */}
-						<img src={logo} />
+					<img src={logo} />
 					{/* </Link> */}
 				</div>
 
-				<div className="my-auto">
-					{/* <ul className="flex text-sm flex-row gap-3 capitalize">{contents}</ul> */}
+				<div className="invert my-auto">
+					<ul className="flex text-sm flex-row gap-3 capitalize">
+						{navLinkCards}
+					</ul>
 				</div>
 			</div>
 		</nav>

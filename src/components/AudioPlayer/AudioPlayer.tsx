@@ -37,23 +37,6 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
     }, []);
 
-    // React.useEffect(() => {
-    //     if(!audioMetadata.current) return;
-
-    //     if(audioMetadata.current.currentTime > 0) {
-    //         // calculate the ratio of audioMetadata.current.duration and info.duration
-    //         const ratio = audioMetadata.current.currentTime / (info.duration / 1000);
-
-    //         console.log(info.duration, audioMetadata.current.currentTime)
-
-    //         if(audioMetadata.current.currentTime !== (info.currentTime  * ratio / 1000) + 1){
-    //             audioMetadata.current.currentTime = (info.currentTime  * ratio / 1000) + 1;
-    //         }
-    //     }
-
-    // }, [info.currentTime]);
-
-
     // format duration to mm:ss
     const formatDuration = (milliseconds: number | string): string => {
         // convert to integer if string
@@ -138,7 +121,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
             </div>
 
             {/* volume slider */}
-            <Volume player={info.player} />
+            <Volume player={info.player} originalAudio={audioMetadata}/>
 
         </div>
     ), document.body);

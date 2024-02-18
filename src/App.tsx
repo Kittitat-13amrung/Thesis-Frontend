@@ -2,13 +2,22 @@ import './App.css'
 import TabVisualiser from './pages/TabViewer/Index'
 import Index from './pages/Index'
 // import TabVisualiser from '@pages/TabVisualiser'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 
 function App() {
   return (
-    <div className="bg-slate-100 min-h-[100vh]">
-      <TabVisualiser/>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+
+          <Route path="/tab-visualiser" element={<TabVisualiser />} />
+          <Route path="/" element={<Index />} />
+        </Routes>
+      </Router>
+    </>
   )
 }
 

@@ -18,7 +18,7 @@ const SongDescriptions:React.FC<Props> = (props) => {
         {/* Icon */}
         <Icon inline className="text-2xl" icon={iconName} />
         {/* Item Title */}
-        <h3 className='text-base font-semibold'>{title}:</h3>
+        <h3 className='text-base font-semibold md:hidden block'>{title}:</h3>
         <p>{value}</p>
       </li>
     )
@@ -29,7 +29,7 @@ const SongDescriptions:React.FC<Props> = (props) => {
   const items = Object.entries(details).map(([title, item]) => <DescriptionItem key={title} title={title} value={item.value} iconName={item.icon}/>)
 
   return (
-    <ul className='grid grid-flow-col place-content-start gap-14'>
+    <ul className='grid grid-flow-col place-content-start gap-14 md:gap-4 md:place-content-between'>
       {items}
     </ul>
   )

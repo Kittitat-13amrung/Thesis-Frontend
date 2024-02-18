@@ -10,8 +10,7 @@ const Index = () => {
 
     return (
         <>
-            <main className="text-neutral-100 bg-[url('./src/assets/images/homepage_hero.png')] drop-shadow">
-                <Navbar />
+            <main className="py-20 text-neutral-100 bg-[url('./src/assets/images/homepage_hero.png')] drop-shadow">
                 {/* <img src={heroImage} className='fixed -z-10 bg-cover'/> */}
                 <div className="container mx-auto px-10 py-14 grid grid-flow-col">
                     <div className="leading-loose">

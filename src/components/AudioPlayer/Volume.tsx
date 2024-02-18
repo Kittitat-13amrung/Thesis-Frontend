@@ -5,9 +5,10 @@ import SliderInput from './SliderInput';
 
 type Props = {
     player: React.MutableRefObject<any>,
+    originalAudio: React.RefObject<HTMLAudioElement>
 };
 
-const Volume: React.FC<Props> = ({ player }) => {
+const Volume: React.FC<Props> = ({ player, originalAudio }) => {
     const volumeSlider = React.useRef<HTMLInputElement>(null);
     const [volume, setVolume] = useVolumeHook();
 
@@ -21,6 +22,9 @@ const Volume: React.FC<Props> = ({ player }) => {
 
         // update player volume
         player.current.changeTrackVolume(player.current.score.tracks, currentVolume / 100);
+        if(!originalAudio.current) return;
+        // update volume on the original audio element
+        originalAudio.current.volume = currentVolume / 100;
     };
 
     // set volume to zero or previous volume state
@@ -35,6 +39,10 @@ const Volume: React.FC<Props> = ({ player }) => {
 
         // update player volume on the Player instance
         player.current.masterVolume = currentVolume / 100;
+
+        if(!originalAudio.current) return;
+        // update volume on the original audio element
+        originalAudio.current.volume = currentVolume / 100;
     }
 
     // Utilised when volume is set to zero to return the previous volume state
@@ -48,6 +56,7 @@ const Volume: React.FC<Props> = ({ player }) => {
 
     return (
         <div className='flex gap-2.5'>
+            {/* volume button */}
             <button onClick={handleVolumeButtonClick}>
                 {volume.currentVolume == 0 ? (
                     <Icon inline icon='heroicons-outline:volume-off' className='w-5 h-5 cursor-pointer text-lime-900' />
@@ -55,6 +64,7 @@ const Volume: React.FC<Props> = ({ player }) => {
                     <Icon inline icon='heroicons-outline:volume-up' className='w-5 h-5 cursor-pointer text-lime-900' />
                 )}
             </button>
+            {/* volume slider */}
             <SliderInput ref={volumeSlider} onChange={handleVolumeChange} onMouseUp={handleMouseVolumeUp} value={volume.currentVolume} className='w-full accent-lime-400' />
         </div>
     )
