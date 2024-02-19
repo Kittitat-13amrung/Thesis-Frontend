@@ -96,7 +96,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
     return createPortal((
         <div className="fixed bottom-0 w-full bg-neutral-200 h-16 z-[3000] bg-opacity-80 drop-shadow-sm backdrop-blur-sm flex gap-2 justify-evenly items-center">
-            <audio ref={audioMetadata} controls className='hidden'>
+            <audio ref={audioMetadata} controls className=''>
                 <source type="audio/wav" />
                 Your browser does not support the audio element.
             </audio>

@@ -4,6 +4,7 @@ import SongDescriptions from '../Songs/SongDescriptions';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import useReadLocalStorage from '@/hooks/useReadLocalStorage';
 import VolumeType from '@/types/audioPlayer/volume';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type Props = {
     setSongTitle: React.Dispatch<React.SetStateAction<string>>
@@ -29,14 +30,20 @@ const Viewer: React.FC<Props> = (props) => {
     const [playtime, setPlaytime] = React.useState(0); // song duration and current time
 
     const volume = useReadLocalStorage<VolumeType>("currentVolume");
+    const [searchParams,] = useSearchParams();
+    const navigate = useNavigate();
 
     React.useEffect(() => {
+        const songName = searchParams.get('song');
+        // check if song does not exists
+        if(!songName) return navigate('/');
+
         // check if AlphaTabApi is already initialized
         if (_api.current) return;
 
         // settings for AlphaTabApi
         const API_SETTINGS = {
-            file: "https://advanced-js.s3.eu-west-1.amazonaws.com/test+(26).xml",
+            file: `https://thesis-bucket-2024.s3.amazonaws.com/${songName}.xml`,
             notation: {
                 elements: {
                     scoreTitle: false,
