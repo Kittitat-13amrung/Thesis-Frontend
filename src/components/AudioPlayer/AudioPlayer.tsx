@@ -1,6 +1,5 @@
 import React from 'react'
 import { createPortal } from 'react-dom';
-import audioWav from '@assets/00_BN3-154-E_solo_mic.wav';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Volume from './Volume';
 import SliderInput from './SliderInput';
@@ -8,15 +7,20 @@ import AudioInfo from '@/types/audioPlayer/info';
 import PlayPauseButton from './PlayPauseButton';
 import useReadLocalStorage from '@/hooks/useReadLocalStorage';
 import VolumeType from '@/types/audioPlayer/volume';
+import { useSearchParams } from 'react-router-dom';
 
 const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement> => {
     const seeker = React.useRef<HTMLInputElement>(null);
     const audioMetadata = React.useRef<HTMLAudioElement>(null);
     const volume = useReadLocalStorage<VolumeType>("currentVolume");
+    const [searchParams,] = useSearchParams();
+
+    const songName = searchParams.get('song');
 
     React.useEffect(() => {
         if (audioMetadata.current && volume) {
-            audioMetadata.current.src = audioWav;
+            // const songName = searchParams.get('song');
+            audioMetadata.current.src = `https://thesis-bucket-2024.s3.eu-west-1.amazonaws.com/audio/${songName}.wav`;
             audioMetadata.current.volume = volume.currentVolume / 100;
         }
 
@@ -28,7 +32,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
             let currentPlayTime = parseInt(seeker.current.value);
 
-            if(currentPlayTime < 0) {
+            if (currentPlayTime < 0) {
                 currentPlayTime = 1000;
             }
 
@@ -62,8 +66,6 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
         // calculate the new time position in terms of audioMetadata
         const newPosition = parseInt(e.target.value);
 
-        console.log(newPosition, info.duration, audioMetadata.current.duration)
-
         audioMetadata.current.currentTime = (newPosition * ratio / 1000) + 1;
 
         // update song position
@@ -96,7 +98,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
     return createPortal((
         <div className="fixed bottom-0 w-full bg-neutral-200 h-16 z-[3000] bg-opacity-80 drop-shadow-sm backdrop-blur-sm flex gap-2 justify-evenly items-center">
-            <audio ref={audioMetadata} controls className=''>
+            <audio ref={audioMetadata} controls className='hidden' preload="auto">
                 <source type="audio/wav" />
                 Your browser does not support the audio element.
             </audio>
@@ -121,7 +123,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
             </div>
 
             {/* volume slider */}
-            <Volume player={info.player} originalAudio={audioMetadata}/>
+            <Volume player={info.player} originalAudio={audioMetadata} />
 
         </div>
     ), document.body);

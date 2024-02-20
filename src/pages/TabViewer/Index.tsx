@@ -6,7 +6,7 @@ const TabVisualiser: React.FC = () => {
   const [songTitle, setSongTitle] = React.useState<string>("Song Title");
 
   return (
-    <main className="pt-28">
+    <main className="pt-28 bg-[url('./src/assets/images/homepage_hero.png')] bg-scroll bg-cover">
       <section className=" container mx-auto drop-shadow">
         <div className="flex flex-row justify-between mx-5 mt-8">
           {/* Song Title */}
@@ -16,7 +16,7 @@ const TabVisualiser: React.FC = () => {
         </div>
       </section>
       {/* Tab Viewer Component */}
-      <section className="rounded-t-xl bg-neutral-50 min-h-[100vh] mx-28 p-5">
+      <section className="rounded-t-xl bg-neutral-50 min-h-[100vh] mx-28 p-5 bg-opacity-80">
         {/* Tab viz */}
         <Viewer setSongTitle={setSongTitle} />
       </section>

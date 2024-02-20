@@ -16,7 +16,6 @@ declare global {
     }
 }
 
-
 const Viewer: React.FC<Props> = (props) => {
     const _api = React.useRef<any>();
     const _viewport = React.useRef<HTMLDivElement>(null);
@@ -36,14 +35,14 @@ const Viewer: React.FC<Props> = (props) => {
     React.useEffect(() => {
         const songName = searchParams.get('song');
         // check if song does not exists
-        if(!songName) return navigate('/');
+        if (!songName) return navigate('/');
 
         // check if AlphaTabApi is already initialized
         if (_api.current) return;
 
         // settings for AlphaTabApi
         const API_SETTINGS = {
-            file: `https://thesis-bucket-2024.s3.amazonaws.com/${songName}.xml`,
+            file: `https://thesis-bucket-2024.s3.amazonaws.com/xml/${songName}.xml`,
             notation: {
                 elements: {
                     scoreTitle: false,

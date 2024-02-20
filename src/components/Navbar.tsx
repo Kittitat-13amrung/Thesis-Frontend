@@ -147,13 +147,13 @@ const Navbar = () => {
 	return (
 		<nav className="absolute top-0 z-10 container left-1/2 -translate-x-1/2 flex flex-col justify-evenly text-white">
 			<div className="container justify-between flex mx-auto">
-				<div className={`invert flex gap-10 items-center m-7`}>
+				<NavLink to={'/' as To} className={`invert flex gap-10 items-center m-7`}>
 					{/* <Link className="select-none" to="/"> */}
 					<img src={logo} />
 					{/* </Link> */}
-				</div>
+				</NavLink>
 
-				<div className="invert my-auto">
+				<div className="invert my-auto bg-slate-900 rounded-xl px-5 py-2">
 					<ul className="flex text-sm flex-row gap-3 capitalize">
 						{navLinkCards}
 					</ul>

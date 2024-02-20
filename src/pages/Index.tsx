@@ -1,5 +1,4 @@
 import Listbox from '@/components/Songs/Listbox'
-import Navbar from '@/components/Navbar';
 import React from 'react';
 import AudioDropInput from '@/components/Songs/AudioDropInput';
 
@@ -10,7 +9,7 @@ const Index = () => {
 
     return (
         <>
-            <main className="py-20 text-neutral-100 bg-[url('./src/assets/images/homepage_hero.png')] drop-shadow">
+            <main className="min-h-[75vh] text-neutral-100 bg-[url('./src/assets/images/homepage_hero.png')] bg-cover flex items-center">
                 {/* <img src={heroImage} className='fixed -z-10 bg-cover'/> */}
                 <div className="container mx-auto px-10 py-14 grid grid-flow-col">
                     <div className="leading-loose">
