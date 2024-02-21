@@ -42,7 +42,7 @@ const Viewer: React.FC<Props> = (props) => {
 
         // settings for AlphaTabApi
         const API_SETTINGS = {
-            file: `https://thesis-bucket-2024.s3.amazonaws.com/xml/${songName}.xml`,
+            file: `https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/xml/${songName}.xml`,
             notation: {
                 elements: {
                     scoreTitle: false,

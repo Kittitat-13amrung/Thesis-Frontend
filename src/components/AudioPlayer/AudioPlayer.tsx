@@ -20,7 +20,6 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
     React.useEffect(() => {
         if (audioMetadata.current && volume) {
             // const songName = searchParams.get('song');
-            audioMetadata.current.src = `https://thesis-bucket-2024.s3.eu-west-1.amazonaws.com/audio/${songName}.wav`;
             audioMetadata.current.volume = volume.currentVolume / 100;
         }
 
@@ -98,7 +97,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
     return createPortal((
         <div className="fixed bottom-0 w-full bg-neutral-200 h-16 z-[3000] bg-opacity-80 drop-shadow-sm backdrop-blur-sm flex gap-2 justify-evenly items-center">
-            <audio ref={audioMetadata} controls className='hidden' preload="auto">
+            <audio ref={audioMetadata} controls className='hidden' src={`https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/audio/${songName}.wav`} preload="auto">
                 <source type="audio/wav" />
                 Your browser does not support the audio element.
             </audio>
