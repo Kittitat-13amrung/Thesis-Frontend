@@ -15,7 +15,7 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
     const volume = useReadLocalStorage<VolumeType>("currentVolume");
     const [searchParams,] = useSearchParams();
 
-    const songName = searchParams.get('song');
+    const songName = searchParams.get('name');
 
     const handlePlayPauseKeyDown = React.useCallback((e: KeyboardEvent) => {
         if (e.key === ' ') {

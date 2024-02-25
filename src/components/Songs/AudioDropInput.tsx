@@ -37,7 +37,7 @@ const AudioDropInput: React.FC = () => {
       if (xhr.status === 201) {
         const response = JSON.parse(xhr.responseText);
         console.log(xhr.responseText);
-        navigate(`/tab-visualiser?song=${response.filename}`);
+        navigate(`/songs?name=${response.filename}`);
       }
 
       if (xhr.status !== 201) {

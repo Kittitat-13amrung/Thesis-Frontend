@@ -18,6 +18,10 @@
   -moz-osx-font-smoothing: grayscale; */
 }
 
+.test {
+  min-height: calc(100vh - 7rem);
+}
+
 .at-cursor-beat {
   background: yellowgreen;
   width: 10px;

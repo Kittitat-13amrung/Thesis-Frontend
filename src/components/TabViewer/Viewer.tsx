@@ -24,7 +24,6 @@ const Viewer: React.FC<Props> = (props) => {
 
     const [songDetails, setSongDetails] = React.useState<songWithIcon | null>(null); // song details
     const [isPlaying, setIsPlaying] = React.useState(false); // play/pause state
-    const [isLoading, setIsLoading] = React.useState(true); // loading state
 
     const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
     const [duration, setDuration] = React.useState(0); // song duration

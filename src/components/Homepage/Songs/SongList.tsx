@@ -15,7 +15,9 @@ const SongList = () => {
     const [error, setError] = React.useState<string | null>(null);
 
     React.useEffect(() => { 
-        useFetch<Response>('http://localhost:5000/songs')
+        console.log(import.meta.env.VITE_API_URL);
+
+        useFetch<Response>(`${import.meta.env.VITE_API_URL}/songs`)
         .then((res) => {
             setSongs(res.data);
             setLoading(false);
@@ -30,7 +32,7 @@ const SongList = () => {
     }, []);
 
     const shouldRenderList = loading ? (
-        <Icon inline icon='mdi:loading' aria-description='loading icon' className='w-full h-full text-center animate-spin'/>
+        <Icon inline icon='mdi:loading' aria-description='loading icon' className='w-20 h-20 text-center animate-spin'/>
     ) : error ? (
         <p className='text-center'>{error}</p>
     ) : songs.map((song) => <Listbox key={song.id} {...song} />);

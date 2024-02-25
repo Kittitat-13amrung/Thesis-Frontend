@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -9,6 +8,9 @@ export default {
       fontSize: {
         clamp: "clamp(1rem, 5vw, 3rem)",
       },
+      // fontFamily: {
+      //   sans: ["Jomhuria", "sans-serif"],
+      // },
     },
   },
   plugins: [],

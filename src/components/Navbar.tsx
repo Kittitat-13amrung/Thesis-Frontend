@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "@/assets/images/tablature.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, To } from "react-router-dom";
+import { AuthContext } from "@/App";
 
 // retrieve the boolean for toggling dark theme
 const darkTheme = localStorage.getItem("dark-theme");
@@ -9,12 +10,7 @@ const darkTheme = localStorage.getItem("dark-theme");
 const Navbar = () => {
 	const [isShowing, setIsShowing] = useState(false); //toggles hamburger navbar
 	const [isDark, setIsDark] = useState(darkTheme); //toggles dark theme
-
-	//storing login data
-	const [LoginForm, setLoginForm] = useState({
-		email: "",
-		password: "",
-	});
+	const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext); //toggles login status
 
 	// Nav Items
 	const navlinks = [
@@ -29,7 +25,7 @@ const Navbar = () => {
 			<NavLink
 				to={url as To}
 				key={`${title}Link`}
-				className="group text-center justify-center select-none font-semibold active:bg-black/50 hover:bg-black/20 hover:invert active:invert rounded-md py-2 px-4 flex gap-2"
+				className="text-center justify-center select-none font-semibold active:bg-neutral-800/50 hover:bg-neutral-800/80 rounded-md py-2 px-4 flex gap-2"
 			>
 				{icon}
 				{title}
@@ -37,20 +33,10 @@ const Navbar = () => {
 		);
 	});
 
-
-
-	//handle changes in login data
-	// const handleLoginForm = (e) => {
-	// 	setLoginForm((prevState) => ({
-	// 		...prevState,
-	// 		[e.target.name]: e.target.value,
-	// 	}));
-	// };
-
-	// Submit Form with Redux
-	// const submitLoginForm = (data) => {
-	// 	data.email = data.email.toLowerCase();
-	// };
+	React.useEffect(() => {
+		// if user is already logged in, redirect to home page
+		// console.log(isLoggedIn)
+	}, []);
 
 	// If User not logged in redirects to sign up
 	// useEffect(() => {
@@ -70,97 +56,94 @@ const Navbar = () => {
 		console.log(localStorage.getItem("dark-theme"));
 	}, [isDark]);
 
-	// let contents;
-
-	// Displays contents variable depending on
-	// the user's authentication status
-	// contents = (
-	// 	<>
-	// 		{/* Hamburger Menu */}
-	// 		<Transition
-	// 			className="overflow-hidden lg:hidden absolute border-b-4 border-neutral-500/50 bg-neutral-800/90 h-screen w-1/3 right-0 top-20"
-	// 			show={isShowing}
-	// 			enter="transition z-0 ease-in-out duration-300 transform"
-	// 			enterFrom="translate-x-full"
-	// 			enterTo="translate-x-0"
-	// 			leave="-transition ease-in-out duration-300 transform"
-	// 			leaveFrom="-translate-x-0"
-	// 			leaveTo="translate-x-full"
-	// 		>
-	// 			<div className="">
-	// 				<div className="container grid gap-3 my-5 mx-auto">
-	// 					<div className=" flex gap-2 justify-center items-center text-2xl font-bold uppercase">
-	// 						<UserCircleIcon className="stroke-1 w-8" />
-	// 						{localStorage.getItem("auth")}
-	// 					</div>
-	// 					<hr className="border-neutral-900/90" />
-	// 					{navLinkCards}
-	// 					<li
-	// 						onClick={() => dispatch(logoutUser(authToken))}
-	// 						className="text-center justify-center cursor-pointer group select-none font-semibold active:bg-black hover:bg-neutral-900 rounded-md py-2 px-4 flex gap-2"
-	// 					>
-	// 						<ArrowLeftOnRectangleIcon className="stroke-2 w-5" />
-	// 						Sign out
-	// 					</li>
-	// 				</div>
-	// 			</div>
-	// 		</Transition>
-	// 		{/* Full-width menu */}
-	// 		<div className="lg:grid lg:grid-flow-col lg:grid-cols-3 lg:gap-5 hidden">
-	// 			{navLinkCards}
-	// 			{/* User Dropdown */}
-	// 			<Popover className="relative">
-	// 				{({ open }) => (
-	// 					<>
-	// 						<Popover.Button className="text-center justify-center items-center cursor-pointer group select-none font-semibold active:bg-black hover:bg-neutral-900 rounded-md py-2 px-4 flex gap-2">
-	// 							<UserIcon className="stroke-2 w-5" />
-	// 							{localStorage.getItem("auth")}
-	// 							<ChevronDownIcon
-	// 								className={` transform transition-transform w-5
-	// 										${open ? "rotate-180 duration-200" : ""}
-	// 									`}
-	// 							/>
-	// 						</Popover.Button>
-
-	// 						<Popover.Panel className="absolute z-10 right-0 rounded-sm bg-neutral-800/80 dark:bg-neutral-400/20">
-	// 							<li
-	// 								onClick={() => dispatch(logoutUser(authToken))}
-	// 								className="text-end justify-end cursor-pointer group select-none font-semibold py-2 px-10 flex gap-1 dark:active:bg-black/50 dark:hover:bg-black/20 active:bg-black/70 hover:bg-black/50 "
-	// 							>
-	// 								<ArrowLeftOnRectangleIcon className="stroke-2 w-5" />
-	// 								Sign out
-	// 							</li>
-	// 						</Popover.Panel>
-	// 					</>
-	// 				)}
-	// 			</Popover>
-	// 		</div>
-	// 		<div className="block mx-8 lg:hidden">
-	// 			<Bars3Icon
-	// 				onClick={() => setIsShowing((isShowing) => !isShowing)}
-	// 				className="w-8 cursor-pointer"
-	// 			/>
-	// 		</div>
-	// 	</>
-	// );
-
 	return (
 		<nav className="absolute top-0 z-10 container left-1/2 -translate-x-1/2 flex flex-col justify-evenly text-white">
 			<div className="container justify-between flex mx-auto">
-				<NavLink to={'/' as To} className={`invert flex gap-10 items-center m-7`}>
+				<NavLink to={'/' as To} className={`flex gap-10 items-center m-7`}>
 					{/* <Link className="select-none" to="/"> */}
 					<img src={logo} />
 					{/* </Link> */}
 				</NavLink>
 
-				<div className="invert my-auto bg-slate-900 rounded-xl px-5 py-2">
+				<div className="my-auto bg-neutral-900 bg-opacity-90 rounded-xl px-5 py-2">
 					<ul className="flex text-sm flex-row gap-3 capitalize">
 						{navLinkCards}
+
+						{isLoggedIn ? <Dropdown /> : (
+							<NavLink
+								to={'/login' as To}
+								key={`LoginLink`}
+								className="text-center justify-center select-none font-semibold active:bg-neutral-800/50 hover:bg-neutral-800/80 rounded-md py-2 px-4 flex gap-2"
+							>
+								<Icon inline icon='basil:login-solid' className="w-6 h-6" />
+								Login
+							</NavLink>
+						)}
 					</ul>
 				</div>
 			</div>
-		</nav>
+		</nav >
 	);
 };
+
+
+const Dropdown = () => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const handleToggle = () => {
+		setIsOpen(!isOpen);
+	};
+
+	const handleLogout = () => {
+		// Perform logout logic here
+	};
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			const target = event.target as Node;
+			const dropdown = document.getElementById("dropdown");
+
+			if (dropdown && !dropdown.contains(target)) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
+
+	return (
+		<div id='dropdown' className="dropdown relative">
+
+			<button
+				onClick={handleToggle}
+				className="text-center justify-center items-center cursor-pointer group select-none font-semibold active:bg-neutral-800/50 hover:bg-neutral-800/80 rounded-md py-2 px-4 flex gap-2"
+			>
+				<Icon icon='mdi:account' className="w-5 h-5" />
+				{localStorage.getItem('username') || 'User'}
+				<Icon icon='mdi:chevron-down' className={`transform transition-transform w-5`} />
+			</button>
+
+			{isOpen && (
+				<div className="w-full absolute z-10 right-0 rounded bg-neutral-600/90 dark:bg-neutral-400/20">
+					<button
+						onClick={handleLogout}
+						className="w-full text-center justify-center select-none font-semibold active:bg-neutral-800/50 hover:bg-neutral-800/80 rounded-md py-2 px-4 flex gap-2"
+					>
+						<Icon inline icon='basil:login-solid' className="w-6 h-6" />
+						<span>Logout</span>
+					</button>
+				</div>
+			)}
+		</div>
+	);
+};
+
+// Usage:
+// <Dropdown />
 
 export default Navbar;
