@@ -17,14 +17,22 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
 
     const songName = searchParams.get('song');
 
+    const handlePlayPauseKeyDown = React.useCallback((e: KeyboardEvent) => {
+        if (e.key === ' ') {
+            info.setIsPlaying(!info.isPlaying);
+            info.player.current.playPause();
+        }
+    }, []);
+
     React.useEffect(() => {
+        // set audio player's volume to the alphaTab player's volume
         if (audioMetadata.current && volume) {
-            // const songName = searchParams.get('song');
             audioMetadata.current.volume = volume.currentVolume / 100;
         }
 
         if (!info.player.current) return;
 
+        // set the audio player's duration to the alphaTab player's duration
         info.player.current.beatMouseDown.on(() => {
             if (!audioMetadata.current) return;
             if (!seeker.current) return;
@@ -36,6 +44,12 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
             }
 
             audioMetadata.current.currentTime = currentPlayTime / 1000;
+        });
+
+        window.addEventListener('keydown', handlePlayPauseKeyDown);
+
+        return (() => {
+            window.removeEventListener('keydown', handlePlayPauseKeyDown);
         })
 
     }, []);
@@ -93,10 +107,13 @@ const AudioPlayer: React.FC<AudioInfo> = (info): React.ReactElement<HTMLElement>
     // stop button click handler
     const handleStopButtonClick = () => {
         info.player.current.stop();
+
+        if (!audioMetadata.current) return;
+        audioMetadata.current.pause();
     }
 
     return createPortal((
-        <div className="fixed bottom-0 w-full bg-neutral-200 h-16 z-[3000] bg-opacity-80 drop-shadow-sm backdrop-blur-sm flex gap-2 justify-evenly items-center">
+        <div className="fixed bottom-0 w-full bg-neutral-200 h-16 z-[1000] bg-opacity-80 drop-shadow-sm backdrop-blur-sm flex gap-2 justify-evenly items-center">
             <audio ref={audioMetadata} controls className='hidden' src={`https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/audio/${songName}.wav`} preload="auto">
                 <source type="audio/wav" />
                 Your browser does not support the audio element.

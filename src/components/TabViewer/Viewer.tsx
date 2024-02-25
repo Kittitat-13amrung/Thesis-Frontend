@@ -1,10 +1,11 @@
-import { song } from '@/types/songs/song';
+import { songWithIcon } from '@/types/songs/song';
 import React from 'react'
 import SongDescriptions from '../Songs/SongDescriptions';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import useReadLocalStorage from '@/hooks/useReadLocalStorage';
 import VolumeType from '@/types/audioPlayer/volume';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 type Props = {
     setSongTitle: React.Dispatch<React.SetStateAction<string>>
@@ -21,8 +22,9 @@ const Viewer: React.FC<Props> = (props) => {
     const _viewport = React.useRef<HTMLDivElement>(null);
     const _overlay = React.useRef<HTMLDivElement>(null);
 
-    const [songDetails, setSongDetails] = React.useState<song | null>(null); // song details
+    const [songDetails, setSongDetails] = React.useState<songWithIcon | null>(null); // song details
     const [isPlaying, setIsPlaying] = React.useState(false); // play/pause state
+    const [isLoading, setIsLoading] = React.useState(true); // loading state
 
     const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
     const [duration, setDuration] = React.useState(0); // song duration
@@ -33,13 +35,13 @@ const Viewer: React.FC<Props> = (props) => {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        const songName = searchParams.get('song');
+        const songName = searchParams.get('name');
         // check if song does not exists
         if (!songName) return navigate('/');
 
         // check if AlphaTabApi is already initialized
         if (_api.current) return;
-
+    
         // settings for AlphaTabApi
         const API_SETTINGS = {
             file: `https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/xml/${songName}.xml`,
@@ -63,12 +65,15 @@ const Viewer: React.FC<Props> = (props) => {
             }
         };
 
+
         // create new instance of AlphaTabApi
         _api.current = new window.alphaTab.AlphaTabApi(_viewport.current as HTMLDivElement, API_SETTINGS);
 
         // show loading indicator when render is started
         _api.current.renderStarted.on(() => {
+            
             if (_overlay.current !== null) {
+                document.body.style.overflow = 'hidden';
                 _overlay.current.style.display = 'flex';
             }
         });
@@ -77,6 +82,7 @@ const Viewer: React.FC<Props> = (props) => {
         _api.current.renderFinished.on(() => {
             if (_overlay.current !== null) {
                 _overlay.current.style.display = 'none';
+                document.body.style.overflow = 'visible';
             }
         });
 
@@ -120,7 +126,7 @@ const Viewer: React.FC<Props> = (props) => {
                     icon: 'material-symbols:artist-outline'
                 },
                 tempo: {
-                    value: score.tempo,
+                    value: score.tempo + ' bpm',
                     icon: 'ph:metronome-bold'
                 },
                 tuning: {
@@ -159,9 +165,10 @@ const Viewer: React.FC<Props> = (props) => {
             <div className="mx-20 grid gap-2">
                 <SongDescriptions details={songDetails} />
                 {/* Loading indicator for music sheet */}
-                <div className="absolute top-0 left-0 right-0 bottom-0 z-20 bg-slate-700 bg-opacity-15 backdrop-blur-sm flex justify-center items-start" ref={_overlay as React.RefObject<HTMLDivElement>}>
-                    <div className="absolute top-1/2 bottom-0">
-                        Music is Loading...
+                <div className="absolute top-0 left-0 right-0 bottom-0 z-[1001] bg-neutral-200 bg-opacity-50 flex justify-center items-start" ref={_overlay as React.RefObject<HTMLDivElement>}>
+                    <div className="absolute top-1/2 bottom-0 flex flex-col items-center gap-10">
+                        <Icon icon="mdi:loading" className="w-24 h-24 animate-spin text-slate-900" />
+                        <h3 className='text-xl'>Music is Loading...</h3>
                     </div>
                 </div>
                 {/* Player controls */}

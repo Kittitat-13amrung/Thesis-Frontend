@@ -13,7 +13,7 @@ function App() {
         <Navbar />
         <Routes>
 
-          <Route path="/tab-visualiser" element={<TabVisualiser />} />
+          <Route path="/songs" element={<TabVisualiser />} />
           <Route path="/" element={<Index />} />
         </Routes>
       </Router>

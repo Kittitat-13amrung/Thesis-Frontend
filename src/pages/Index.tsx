@@ -1,12 +1,7 @@
-import Listbox from '@/components/Songs/Listbox'
-import React from 'react';
+import SongList from '@/components/Homepage/Songs/SongList';
 import AudioDropInput from '@/components/Songs/AudioDropInput';
 
 const Index = () => {
-    React.useEffect(() => { }, []);
-
-
-
     return (
         <>
             <main className="min-h-[75vh] text-neutral-100 bg-[url('./src/assets/images/homepage_hero.png')] bg-cover flex items-center">
@@ -26,35 +21,7 @@ const Index = () => {
                 </div>
             </main>
             {/* Songs Section  */}
-            <section>
-                {/* Title & Filter */}
-                <div className="container mx-auto">
-                    <div className="flex justify-between my-6">
-                        {/* Songs Title */}
-                        <div className="flex gap-4">
-                            {/* <MusicalNoteIcon className='aspect-square w-8' /> */}
-                            <h2 className="text-3xl font-black font-sans">
-                                Songs
-                            </h2>
-                        </div>
-                        {/* Filter */}
-                        <div className="flex gap-2">
-                            {/* <FunnelIcon className='aspect-square w-5'/> */}
-                            <select defaultValue="1" name="" id="">
-                                <option value="1">latest</option>
-                                <option value="2">oldest</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Songs list */}
-                <div className="grid grid-flow-row">
-                    <Listbox />
-                    <Listbox />
-                    <Listbox />
-                </div>
-            </section>
+            <SongList />
         </>
     )
 }

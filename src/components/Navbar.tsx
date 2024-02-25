@@ -20,7 +20,7 @@ const Navbar = () => {
 	const navlinks = [
 		["Home", "/", <Icon inline icon='material-symbols:home-outline' className="w-6 h-6" />],
 		// ["Courses", "/courses", <BookmarkSquareIcon className="w-6 h-6" />],
-		["Tab", "/tab-visualiser", <Icon inline icon='mingcute:file-music-line' className="w-6 h-6" />],
+		["Tab", "/songs", <Icon inline icon='mingcute:file-music-line' className="w-6 h-6" />],
 	];
 
 	// Mapping Nav items to Navlinks
