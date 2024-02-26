@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "@/assets/images/tablature.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { NavLink, To } from "react-router-dom";
+import { NavLink, To, useNavigate } from "react-router-dom";
 import { AuthContext } from "@/App";
 
-// retrieve the boolean for toggling dark theme
-const darkTheme = localStorage.getItem("dark-theme");
-
 const Navbar = () => {
-	const [isShowing, setIsShowing] = useState(false); //toggles hamburger navbar
-	const [isDark, setIsDark] = useState(darkTheme); //toggles dark theme
-	const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext); //toggles login status
+	// const [isDark, setIsDark] = useState(darkTheme); //toggles dark theme
+	const {isLoggedIn} = useContext(AuthContext); //toggles login status
 
 	// Nav Items
 	const navlinks = [
@@ -44,17 +40,17 @@ const Navbar = () => {
 	// }, [authenticated]);
 
 	// Updates state when button has been toggled
-	useEffect(() => {
-		if (isDark) {
-			localStorage.setItem("dark-theme", isDark);
-			document.documentElement.classList.add("dark");
-		} else {
-			localStorage.removeItem("dark-theme");
-			document.documentElement.classList.remove("dark");
-		}
+	// useEffect(() => {
+	// 	if (isDark) {
+	// 		localStorage.setItem("dark-theme", isDark);
+	// 		document.documentElement.classList.add("dark");
+	// 	} else {
+	// 		localStorage.removeItem("dark-theme");
+	// 		document.documentElement.classList.remove("dark");
+	// 	}
 
-		console.log(localStorage.getItem("dark-theme"));
-	}, [isDark]);
+	// 	console.log(localStorage.getItem("dark-theme"));
+	// }, [isDark]);
 
 	return (
 		<nav className="absolute top-0 z-10 container left-1/2 -translate-x-1/2 flex flex-col justify-evenly text-white">
@@ -89,6 +85,8 @@ const Navbar = () => {
 
 const Dropdown = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext); //toggles login status
+	const navigate = useNavigate();
 
 	const handleToggle = () => {
 		setIsOpen(!isOpen);
@@ -96,6 +94,11 @@ const Dropdown = () => {
 
 	const handleLogout = () => {
 		// Perform logout logic here
+		if(isLoggedIn) {
+			setIsLoggedIn(false);
+			localStorage.removeItem('token');
+			navigate('/login', { replace: true });
+		}
 	};
 
 	useEffect(() => {

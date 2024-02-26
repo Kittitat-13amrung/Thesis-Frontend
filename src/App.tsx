@@ -2,6 +2,7 @@ import './App.css'
 import TabVisualiser from './pages/TabViewer/Index'
 import Index from './pages/Index';
 import Login from './pages/Login/Index';
+import Register from './pages/Register/Index';
 // import TabVisualiser from '@pages/TabVisualiser'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -24,6 +25,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/songs" element={<TabVisualiser />} />
           </Routes>
 
