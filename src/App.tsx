@@ -29,7 +29,7 @@ function App() {
             <Route path="/songs" element={<TabVisualiser />} />
           </Routes>
 
-          <Footer />
+          {/* <Footer /> */}
         </Router>
       </AuthContext.Provider>
     </>
