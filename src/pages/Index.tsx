@@ -2,6 +2,8 @@ import SongList from '@/components/Homepage/Songs/SongList';
 import AudioDropInput from '@/components/Songs/AudioDropInput';
 
 const Index = () => {
+    console.log(import.meta.env.VITE_API_URL);
+
     return (
         <>
             <main className="min-h-[75vh] text-neutral-100 bg-[url('https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/assets/homepage_hero.png')] bg-cover flex items-center">

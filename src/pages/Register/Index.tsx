@@ -41,7 +41,7 @@ const Index: React.FC = () => {
     // handle form submit
     const handleLoginFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch(`${import.meta.env.VITE_API_URL}/users/create`, {
+        fetch(`${process.env.VITE_API_URL}/users/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

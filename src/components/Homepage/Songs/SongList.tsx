@@ -15,9 +15,9 @@ const SongList = () => {
     const [error, setError] = React.useState<string | null>(null);
 
     React.useEffect(() => { 
-        console.log(import.meta.env.VITE_API_URL);
+        console.log(process.env.VITE_API_URL);
 
-        useFetch<Response>(`${import.meta.env.VITE_API_URL}/songs`)
+        useFetch<Response>(`${process.env.VITE_API_URL}/songs`)
         .then((res) => {
             setSongs(res.data);
             setLoading(false);
