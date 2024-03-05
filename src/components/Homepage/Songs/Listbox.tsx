@@ -2,7 +2,7 @@ import { SongProps } from "@/types/songs/song"
 import { InlineIcon } from "@iconify/react/dist/iconify.js"
 import { NavLink } from "react-router-dom";
 
-const Listbox: React.FC<SongProps> = ({ artist, bpm, created_at, duration, filename, genre, id, key_signature, name, time_signature, updated_at }) => {
+const Listbox: React.FC<SongProps> = ({ artist, bpm, filename, key_signature, name, time_signature }) => {
     return (
         <NavLink to={`/songs?name=${filename}`} className='p-4 flex flex-row gap-4 group/songButton rounded-lg hover:bg-neutral-100'>
             {/* Image */}

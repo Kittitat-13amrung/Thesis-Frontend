@@ -1,9 +1,3 @@
-type responseType<T> = {
-    data: T[];
-    loading: boolean;
-    error: string | null;
-}
-
 export default async function useFetch<T>(url: string): Promise<T> {
 
     const response = await fetch(url);

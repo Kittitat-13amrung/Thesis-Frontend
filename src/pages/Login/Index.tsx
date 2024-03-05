@@ -63,7 +63,7 @@ const Index: React.FC = () => {
     }
 
     return (
-        <main className="grid place-content-center place-items-center w-screen h-screen bg-[url('./src/assets/images/homepage_hero.png')] bg-cover">
+        <main className="grid place-content-center place-items-center w-screen h-screen bg-[url('https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/assets/homepage_hero.png')] bg-cover">
             <article className='container mx-auto grid grid-cols-2 rounded-3xl bg-opacity-70 bg-neutral-300 drop-shadow-sm'>
                 {/* Login Form Part */}
                 <section className='w-[500px] h-[600px] p-10 space-y-16'>
@@ -105,7 +105,7 @@ const Index: React.FC = () => {
                 </section>
 
                 {/* Background Side */}
-                <section className="bg-[url('./src/assets/images/login-side.jpg')] bg-cover rounded-r-3xl" />
+                <section className="bg-[url('https://thesisbackendstorage.blob.core.windows.net/thesisbackendcontainer/assets/login-side.jpg')] bg-cover rounded-r-3xl" />
             </article>
         </main>
     )

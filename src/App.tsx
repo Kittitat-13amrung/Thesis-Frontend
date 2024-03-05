@@ -6,7 +6,7 @@ import Register from './pages/Register/Index';
 // import TabVisualiser from '@pages/TabVisualiser'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import React from 'react';
 
 export const AuthContext = React.createContext<{ isLoggedIn: boolean; setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>> }>({
@@ -29,7 +29,6 @@ function App() {
             <Route path="/songs" element={<TabVisualiser />} />
           </Routes>
 
-          {/* <Footer /> */}
         </Router>
       </AuthContext.Provider>
     </>

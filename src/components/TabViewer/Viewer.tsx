@@ -6,7 +6,7 @@ import useReadLocalStorage from '@/hooks/useReadLocalStorage';
 import VolumeType from '@/types/audioPlayer/volume';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import SelectedNoteController from './NoteSelector/NoteSelector';
+// import SelectedNoteController from './NoteSelector/NoteSelector';
 
 type Props = {
     setSongTitle: React.Dispatch<React.SetStateAction<string>>
@@ -48,12 +48,12 @@ const Viewer: React.FC<Props> = (props) => {
     const _viewport = React.useRef<HTMLDivElement>(null);
     const _guide = React.useRef<HTMLDivElement>(null);
     const _overlay = React.useRef<HTMLDivElement>(null);
-    const selectedNoteController = new SelectedNoteController(null);
+    // const selectedNoteController = new SelectedNoteController(null);
 
     const [songDetails, setSongDetails] = React.useState<songWithIcon | null>(null); // song details
     const [isPlaying, setIsPlaying] = React.useState(false); // play/pause state
 
-    const [isPlayButtonDisabled, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
+    const [, setIsPlayButtonDisabled] = React.useState(false); // disable play button until player is ready
     const [duration, setDuration] = React.useState(0); // song duration
     const [playtime, setPlaytime] = React.useState(0); // song duration and current time
 
@@ -61,39 +61,33 @@ const Viewer: React.FC<Props> = (props) => {
     const [searchParams,] = useSearchParams();
     const navigate = useNavigate();
 
-    function createGuide(wrapper: HTMLDivElement, bounds: any | {
-        visualBounds: any,
-        realBounds: any
-    }, color: string) {
-        const guide = document.createElement("div");
-        guide.style.position = "absolute";
-        const rect =
-            "x" in bounds
-                ? bounds
-                : bounds.visualBounds;
-        guide.style.left = rect.x + "px";
-        guide.style.top = rect.y + "px";
-        guide.style.width = rect.w + "px";
-        guide.style.height = rect.h + "px";
-        guide.style.border = `1px solid ${color}`;
-        guide.style.background = hexToRgba(color, 0.5);
-        wrapper.appendChild(guide);
-    }
+    // function createGuide(wrapper: HTMLDivElement, bounds: any | {
+    //     visualBounds: any,
+    //     realBounds: any
+    // }, color: string) {
+    //     const guide = document.createElement("div");
+    //     guide.style.position = "absolute";
+    //     const rect =
+    //         "x" in bounds
+    //             ? bounds
+    //             : bounds.visualBounds;
+    //     guide.style.left = rect.x + "px";
+    //     guide.style.top = rect.y + "px";
+    //     guide.style.width = rect.w + "px";
+    //     guide.style.height = rect.h + "px";
+    //     guide.style.border = `1px solid ${color}`;
+    //     guide.style.background = hexToRgba(color, 0.5);
+    //     wrapper.appendChild(guide);
+    // }
 
-    function hexToRgba(hex: string, alpha: number) {
-        let c = hex.substring(1).split("");
-        if (c.length == 3) {
-            c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-        }
-        const n = parseInt(c.join(""), 16);
-        return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255},${alpha})`;
-    }
-
-    function createStaveGroupGuides(wrapper: HTMLDivElement, lookup: any) {
-        for (const staveGroup of lookup.staveGroups) {
-            createGuide(wrapper, staveGroup, "#1976d2");
-        }
-    }
+    // function hexToRgba(hex: string, alpha: number) {
+    //     let c = hex.substring(1).split("");
+    //     if (c.length == 3) {
+    //         c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    //     }
+    //     const n = parseInt(c.join(""), 16);
+    //     return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255},${alpha})`;
+    // }
 
     React.useEffect(() => {
         const songName = searchParams.get('name');
